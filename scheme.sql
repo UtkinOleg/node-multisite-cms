@@ -396,7 +396,5 @@ ALTER TABLE ONLY public.documents
     ADD CONSTRAINT documents_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
---
--- PostgreSQL database dump complete
---
 
+INSERT INTO users(name) VALUES('admin');

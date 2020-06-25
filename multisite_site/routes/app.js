@@ -69,18 +69,7 @@ router.post("/feedback", (req, res) => {
 
 router.get('/feedback/:type/:url', (req, res, next) => {
   process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
-
-  const urls = [models.api_url + models.document_prefix + req.params.type, 
-    models.api_url + models.options_prefix + req.params.type, 
-    models.api_url + '/common-'+req.params.url+'.json',
-    models.api_url + '/adding-'+req.params.url+'.json'
-  ];
-
-  process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
-
-  let promises = urls.map(url => fetchJSON(url, header));
-
-  Promise.all(promises)
+  Promise.all(urls.map(url => fetchJSON(url, header)))
   .then(data => {
     if (data[0] && data[1]) {
       models.site_data.pages = data[0];
@@ -112,14 +101,8 @@ router.get('/feedback/:type/:url', (req, res, next) => {
 
 // Route single page
 router.get('/'+models.default_type+'/:url', (req, res, next) => {
-  const urls = [models.api_url + models.document_prefix + models.default_type, 
-    models.api_url + models.options_prefix + models.default_type];
   process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
-
-  let promises = urls.map(url => fetchJSON(url, header));
-
-  Promise.all(promises)
-  .then(data => {
+  Promise.all(urls.map(url => fetchJSON(url, header))).then(data => {
     if (data[0] && data[1]) {
       models.site_data.pages = data[0];
       models.site_data.options = data[1][0];
@@ -149,14 +132,7 @@ router.get('/'+models.default_type+'/:url', (req, res, next) => {
 
 router.get('/' + models.default_type, (req, res, next) => {
   process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
-  
-  const urls = [models.api_url + models.document_prefix + models.default_type, 
-    models.api_url + models.options_prefix + models.default_type];
-
-  let promises = urls.map(url => fetchJSON(url, header));
-
-  Promise.all(promises)
-  .then(data => {
+  Promise.all(urls.map(url => fetchJSON(url, header))).then(data => {
     if (data[0] && data[1]) {
       models.site_data.pages = data[0];
       models.site_data.options = data[1][0];
@@ -178,11 +154,7 @@ router.get('/' + models.default_type, (req, res, next) => {
 // Default route PAGE
 router.get('/', (req, res, next) => {
   process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
-  
-  let promises = urls.map(url => fetchJSON(url, header));
-
-  Promise.all(promises)
-  .then(data => {
+  Promise.all(urls.map(url => fetchJSON(url, header))).then(data => {
     if (data[0] && data[1]) {
       models.site_data.pages = data[0];
       models.site_data.options = data[1][0];

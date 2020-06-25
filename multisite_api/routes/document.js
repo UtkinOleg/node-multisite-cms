@@ -31,7 +31,7 @@ router.post(config.url, cors(), (req, res, next) => {
     }
 
     let query2 = client.query('INSERT INTO documents (date_create, name, url, content, user_id, type) values($1, $2, $3, $4, $5, $6) RETURNING id',
-    [ date, document.name, document.url, document.content, 1, document.type ]);
+    [ date, document.name, document.url, document.content, 1, req.query.type ]);
 
     query2.on('error', (err) => {
       done();
