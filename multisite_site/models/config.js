@@ -15,5 +15,7 @@ module.exports.site_data = {
   phone: '',
   description: '',
   email: '',
-  email_password: '' 
+  email_password: '',
+  mailhost : '',
+  port: ''
 };

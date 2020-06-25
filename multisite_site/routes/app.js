@@ -30,35 +30,36 @@ router.post("/feedback", (req, res) => {
 
 	process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
-	const auth = {
-		user: models.site_data.email,
-		pass: models.site_data.email_password
-	};
-
 	const transporter = nodemailer.createTransport({
-		host: '',
-		port: 465,
+		host: models.site_data.mailhost,
+		port: models.site_data.port,
 		secure: true, // use TLS
-		auth: auth
+		auth: {
+      user: models.site_data.email,
+      pass: models.site_data.email_password
+    }
 	});
 
 	const mailoptions = {
 		from: models.site_data.email,
-		to: req.body.email,
+		to: models.site_data.email,
 		subject: req.body.name,
-    text: req.body.text
+    text: JSON.stringify(req.body)
 	}
 
   if (transporter) {
     transporter.verify( (error, success) => {
       if (error) {
         console.error(error);
+        res.render('mailerror')
       } else {
         transporter.sendMail(mailoptions, (error, info) =>{
           if(error) {
             console.log(error);
+            res.render('mailerror')
           } else {
-            console.log('Mail sent', info);
+            console.log('Email sent', info);
+            res.render('mailsent')
           }
         })
       }
