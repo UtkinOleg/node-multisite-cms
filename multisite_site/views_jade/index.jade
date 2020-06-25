@@ -1,0 +1,44 @@
+extends layouts/default_light
+
+block content
+  .container
+    .content
+      - if (item === 'all')
+        h1=options.content.title
+        .header!=options.content.header
+        .flex
+          each page, index in pages
+            div
+              img(src=page.content.picture)
+              div
+                h1=page.name
+                div!=page.content.text
+        .footer!=options.content.footer
+      - else 
+        each page, index in pages
+          - if (item == page.url)
+            .page
+              h1.left=page.name
+            each data in page.content.content
+              case data.name
+                when 'sub_title'
+                  .page-sub-title
+                    h2!=data.text
+                when 'indent'
+                  .page-indent
+                    img(src='/img/noun.png')
+                    p!=data.text
+                when 'text'
+                  .page-text
+                    p!=data.text
+                when 'items'
+                  .page-items
+                    ul
+                      each li in data.items
+                        li=li
+
+
+
+            
+
+

@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.note-modal-backdrop {
+    position: inherit !important;
+}
+
+.mat-expansion-panel-header-title {
+    margin-top: 10px;
+}
+
+.loader {
+    position:absolute; 
+    width:90px; 
+    height:90px; 
+    left:50%; 
+    top:50%; 
+    margin-left:-67px; 
+    margin-top:-50px;
+}

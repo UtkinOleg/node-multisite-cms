@@ -1,0 +1,315 @@
+<mat-drawer-container style="height: 100%;" autosize>
+  <mat-progress-bar style="position: fixed;top: 0;z-index: 100;" *ngIf="showProgress" mode="buffer"></mat-progress-bar>
+  
+  <mat-card *ngIf="!openEditor && !jsonEditor">
+      <mat-tab-group>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>description</mat-icon>
+            &nbsp;Content&nbsp;<span *ngIf="dataSource.data.length>0" style="color:gray">({{dataSource.data.length}})</span>
+          </ng-template>          
+
+      <button (click)="addDocument()" mat-raised-button color="primary" style="margin-bottom: 20px;">
+        New content - {{type}} 
+      </button>
+
+      <mat-form-field style="margin-left: 20px;">
+        <mat-label>Filter</mat-label>
+        <input matInput [(ngModel)]="filterValue" (keyup)="applyFilter($event)">
+      </mat-form-field>
+ 
+      <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Name</th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="api">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>URL</th>
+          <td mat-cell *matCellDef="let element"> {{element.url}} </td>
+        </ng-container>
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Creation date</th>
+          <td mat-cell *matCellDef="let element"> {{element.dateC}} </td>
+        </ng-container>
+        <ng-container matColumnDef="date2">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Last changes</th>
+          <td mat-cell *matCellDef="let element"> {{element.dateM}} </td>
+        </ng-container>
+        <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button [color]="getColor(element)"
+              (click)="$event.stopPropagation();editDoc(element)">
+              <mat-icon aria-hidden="false" aria-label="Edit">edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="copy">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Copy {{type}}</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button [color]="getColor(element)"
+              (click)="$event.stopPropagation();copyDoc(element)">
+              <mat-icon aria-hidden="false" aria-label="Copy">file_copy</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="preview">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Preview {{type}}</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button [color]="getColor(element)"
+              (click)="$event.stopPropagation();previewDoc(element)">
+              <mat-icon aria-hidden="false" aria-label="Preview">pageview</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="published">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Publish</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon *ngIf="element.published" aria-hidden="false" aria-label="Check">check</mat-icon>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Delete {{type}}</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button [color]="getColor(element)"
+              (click)="$event.stopPropagation();delDoc(element)">
+              <mat-icon aria-hidden="false" aria-label="Delete">delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+          
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+        <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" 
+          class="example-element-row"
+          (click)="editDoc(element)"></tr>
+      </table>
+
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon>done</mat-icon>
+            &nbsp;Main content&nbsp;<span *ngIf="options.dateM" style="color:gray">({{options.dateM}})</span>
+          </ng-template>          
+        <br/>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Header" [(ngModel)]="options.content.title" class="validate">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Breadcrumb" [(ngModel)]="options.content.crumb" class="validate">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Breadcrumb's URL" [(ngModel)]="options.content.crumburl" class="validate">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput [(ngModel)]="options.content.description" rows="4"></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Content CSS</mat-label>
+          <textarea matInput [(ngModel)]="options.content.css" rows="10"></textarea>
+        </mat-form-field>
+
+        <div [formGroup]="formOptions">
+          <mat-label>Content Header</mat-label>
+          <div formControlName="header" [ngxSummernote]="config"></div>
+          <mat-label>Content Footer</mat-label>
+          <div formControlName="footer" [ngxSummernote]="config"></div>
+        </div>
+
+        <br>
+        <button i18n mat-raised-button
+          (click)="saveOptions()" 
+          color="primary">Save
+        </button>
+      </mat-tab>
+    </mat-tab-group>    
+  </mat-card>
+
+  <mat-card *ngIf="openEditor">
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Name (H1)" [(ngModel)]="document.name" class="validate">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <input matInput placeholder="URL" [(ngModel)]="document.url" class="validate">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <input matInput placeholder="СЕО name" [(ngModel)]="document.content.seo_title" class="validate">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <input matInput placeholder="СЕО description" [(ngModel)]="document.content.seo_description" class="validate">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Picture" [(ngModel)]="document.content.picture" class="validate">
+    </mat-form-field>
+
+    <mat-accordion [multi]="true">
+
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title i18n>
+            <strong>Breadcrumbs</strong>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+    
+        <table class="full-width" cellspacing="0"><tr>
+          <td>
+            <mat-form-field class="full-width">
+              <input matInput i18n-placeholder placeholder="Name" #paramName>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="full-width">
+              <input matInput i18n-placeholder placeholder="URL" #paramValue>
+            </mat-form-field>
+          </td>
+          <td>
+            <button i18n mat-button matSuffix mat-stroked-button aria-label="param" color="primary" (click)="addParam(paramName, paramValue, document.content.breadcrumbs)">
+              Add
+            </button>
+          </td>
+        </tr></table>
+
+        <mat-form-field class="full-width">
+          <mat-chip-list #chipList aria-label="Breadcrumbs">
+            <mat-chip color="primary" *ngFor="let param of document.content.breadcrumbs" [selectable]="selectable"
+              [removable]="true" (removed)="remove(param, document.content.breadcrumbs)">
+              {{param.name}} {{param.value}}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+          </mat-chip-list>
+        </mat-form-field>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title i18n>
+            <strong>Main content</strong>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div [formGroup]="form">
+          <div formControlName="html" [ngxSummernote]="config"></div>
+        </div>
+
+        <mat-form-field class="full-width">
+          <input type="text" 
+            placeholder="Type" 
+            #contentType 
+            matInput [matAutocomplete]="type1">
+          <mat-autocomplete #type1="matAutocomplete">
+            <mat-option value="text"> 
+              HTML
+            </mat-option>
+            <mat-option value="items"> 
+              Items
+            </mat-option>
+            <mat-option value="sub_title"> 
+              Subtitle
+            </mat-option>
+          </mat-autocomplete>
+          <button i18n mat-button matSuffix mat-raised-button 
+            aria-label="param" 
+            color="primary" 
+            (click)="addContent(contentType, document.content.content)">
+            Add content
+          </button>
+        </mat-form-field>
+
+        <mat-accordion *ngIf="document.content.content.length>0">
+          <mat-expansion-panel *ngFor="let data of document.content.content; let i = index">
+            <mat-expansion-panel-header>
+              <mat-panel-title *ngIf="data.name==='text'">
+                <strong>HTML</strong>&nbsp;{{data.text.substring(0, 40) + '...'}}
+              </mat-panel-title>
+              <mat-panel-title *ngIf="data.name==='items'">
+                <strong>Items</strong>&nbsp;{{getItem(data.items)}}
+              </mat-panel-title>
+              <mat-panel-title *ngIf="data.name==='sub_title'">
+                <strong>Subtitle</strong>&nbsp;{{data.text.substring(0, 40) + '...'}}
+              </mat-panel-title>
+              <mat-panel-description style="text-align: right;display: block;">
+                <button mat-icon-button i18n
+                  (click)="$event.stopPropagation();downContent(i);"
+                  color="primary"><mat-icon class="example-icon" aria-hidden="false" aria-label="up">keyboard_arrow_down</mat-icon>
+                </button>
+                <button mat-icon-button i18n
+                  (click)="$event.stopPropagation();upContent(i)"
+                  color="primary"><mat-icon class="example-icon" aria-hidden="false" aria-label="up">keyboard_arrow_up</mat-icon>
+                </button>
+                <button mat-icon-button i18n
+                  (click)="$event.stopPropagation();delContent(i)"
+                  color="primary"><mat-icon class="example-icon" aria-hidden="false" aria-label="Delete Content">delete</mat-icon>
+                </button>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div [formGroup]="formContent[i]" *ngIf="data.name === 'text' || data.name === 'sub_title' || data.name === 'indent' || data.name === 'right_img'">
+              <div formControlName="html" [ngxSummernote]="config"></div>
+            </div>
+
+            <mat-form-field class="full-width" *ngIf="data.name === 'right_img'">
+              <input matInput placeholder="Картинка" [(ngModel)]="data.img" class="validate">
+            </mat-form-field>
+        
+            <mat-form-field class="full-width" *ngIf="data.name==='items'">
+              <input type="text" 
+                placeholder="Item" 
+                #contentItem 
+                matInput>
+              <button i18n mat-button matSuffix mat-raised-button 
+                aria-label="param" 
+                color="primary" 
+                (click)="addItem(contentItem, data.items)">
+                Add item
+              </button>
+            </mat-form-field>
+
+            <mat-form-field class="full-width" *ngIf="data.name==='items'">
+              <mat-chip-list #chipList aria-label="Items">
+                <mat-chip color="primary" *ngFor="let item of data.items" [selectable]="selectable"
+                  [removable]="true" (removed)="remove(item, data.items)">
+                  {{item}}
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+              </mat-chip-list>
+            </mat-form-field>
+
+          </mat-expansion-panel>
+        </mat-accordion>  
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <br/>
+    <div class="example-element-description">
+      <button i18n mat-raised-button
+      *ngIf="!newDocument"
+        (click)="saveData(false)" 
+        color="primary">Save
+      </button>&nbsp;
+      <button i18n mat-raised-button
+        (click)="saveData(true)" 
+        color="primary">Save & Close
+      </button>&nbsp;
+      <button i18n mat-raised-button
+        *ngIf="!newDocument"
+        (click)="previewDoc(document)">
+        <mat-icon class="example-icon" aria-hidden="false" aria-label="Preview">pageview</mat-icon> Preview
+      </button>&nbsp;
+      <button i18n mat-raised-button
+        (click)="cancel()"
+        style="float:right"
+        color="accent">Cancel
+      </button>
+    </div>
+  </mat-card>
+</mat-drawer-container>
+
+      

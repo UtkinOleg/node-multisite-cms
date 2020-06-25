@@ -1,0 +1,677 @@
+$primary: rgb(255, 64, 129);
+
+table {
+    width: 100%;
+}
+
+tr.example-detail-row {
+    height: 0;
+    background-color: #cab1f7;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+    background-color: #cab1f7;
+    cursor: pointer;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+    background-color: #cab1f7;
+}
+
+.example-element-row td {
+    border-bottom-width: 0;
+}
+
+.example-element-detail {
+    overflow: hidden;
+    display: inline;
+}
+
+.example-element-description {
+    padding: 10px;
+    font-weight: 500;
+}
+
+.block-box {
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #2a78a9;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #ffffff;
+    max-width: 968px;
+    margin: 20px auto;
+}
+
+.show {
+    display: block!important;
+}
+
+.block-head {
+    line-height: 50px;
+    text-align: center;
+    background-color: #2a78a9;
+    margin-bottom: 20px;
+    color: #fff;
+    font-size: 20px;
+    font-family: 'Roboto';
+    text-transform: uppercase;
+}
+
+.sector-head, .head-study {
+    position: relative;
+    font-size: 20px !important;
+    font-family: 'Roboto';
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.sector-head span {
+    color: $primary;
+    font-size: 22px;
+    line-height: 22px;
+    font-family: 'Roboto';
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.sector-head img {
+    margin-top: 17px;
+    width: 85%;
+}
+
+.sector-body {
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.sector-body-left {
+    display: block;
+    margin: 10px;
+    float: left;
+}
+
+.sector-body .switch {
+    min-height: 20px;
+    margin: 5px;
+    font-weight: 400;
+    cursor: pointer;
+    display: inline-block;
+    text-align: left;
+}
+
+.sector-body .switch[disabled="disabled"] > div {
+    background-color: #eaeaea;
+    cursor: default;
+}
+
+.sector-body .switch small {
+    font-weight: normal;
+    font-size: 18px;
+    text-align: center;
+    display: block;
+    padding-top: 5px;
+}
+
+.sector-body .switch small span {
+    color: #000;
+}
+
+.sector-body .switch > div  {
+    min-width: 100px;
+    height: 37px;
+    line-height: 28px;
+    padding-top: 8px;
+    padding-left: 8px;
+    padding-right: 10px;
+    font-size: 20px;
+    font-family: 'Roboto';
+    color: #fff;
+    background-color: #5aafdf;
+    border-radius: 22px;
+}
+
+.sector-body .switch input,
+.sector-body section input,
+.sector-body .list-time input
+{
+    display: none;
+}
+
+.sector-body .switch .circle {
+    position: relative;
+    float: left;
+    width: 28px;
+    height: 28px;
+    margin-right: 12px;
+    background-color: #fff;
+    border-radius: 50%;
+}
+
+.sector-body .switch input:checked + div .circle:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 16px;
+    height: 16px;
+    background-color: $primary;
+    border-radius: 50%;
+}
+
+.sector-body .switch input:checked + div {
+    background-color: #2a78a9;
+}
+
+.sector-body .switch .price {
+    float: right;
+    font-size: 17px;
+    font-family: 'Roboto';
+    margin-left: 10px;
+}
+
+hr {
+    border-bottom: 1px solid #2a78a9;
+    width: 100%;
+}
+
+.slick-slider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slick-track {
+    display: inline-flex;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+}
+
+.slick-slide {
+    padding: 6px;
+    min-width: 200px;
+    text-align: center;
+    cursor: pointer;
+    font-family: 'Roboto';
+    font-size: 14px;
+    color: #7c7c7c;
+}
+
+.slick-slide-time {
+    padding: 6px;
+    min-width: 100px;
+    text-align: center;
+    cursor: pointer;
+    font-family: 'Roboto';
+    font-size: 14px;
+    color: #7c7c7c;
+}
+
+.slick-slide-hidden {
+    display: none;
+}
+
+.slick-slide-selected {
+    border: 2px $primary solid;
+    margin-top: -5px;
+    margin-bottom: -5px;
+    padding-top: 10px;
+    font-weight: 500;
+    color: #000;
+}
+
+.zones {
+    height: 200px;
+    overflow-y: auto;
+    margin: 20px;
+}
+
+.mat-badge-above {
+    top: 0px;
+}
+
+.right-btn {
+    float: right;
+    margin-right: 10px;
+}
+
+.prev {
+    position: relative;
+    left: 7px;
+}
+
+.prev-back {
+    position: relative;
+    left: -10px;
+    top: -3px;
+}
+.next {
+    position: relative;
+    right: 7px;
+}
+
+.zone-cancel {
+    color: $primary;
+    position: relative;
+    top: 5px;
+    cursor: pointer;
+}
+
+.zones-list {
+    display: flex;
+    color: $primary;
+    margin-bottom: 20px;
+}
+
+.section-map {
+    display: flex;
+}
+
+.sector-map {
+    width: 50%;
+    text-align: center;
+}
+
+.width-100 {
+    width: 100px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+td {
+  padding-right: 8px;
+}
+
+.half-width {
+    width: 45%;
+    padding-right: 15px;
+}
+
+.accent-msg {
+    color: #ff4081;
+    font-weight: 500;
+    /* background-color: #ffd6e4; */
+}
+
+.center-name {
+    position: relative;
+    top: -5px;
+    margin-left: 5px;
+}
+
+/*!
+ * Quill Editor v1.3.6
+ */
+  .ql-editor {
+    box-sizing: border-box;
+    line-height: 1.42;
+    height: 100%;
+    outline: none;
+    overflow-y: auto;
+    padding: 12px 15px;
+    tab-size: 4;
+    -moz-tab-size: 4;
+    text-align: left;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  ::ng-deep .ql-editor p,
+  ::ng-deep .ql-editor ol,
+  ::ng-deep .ql-editor ul,
+  ::ng-deep .ql-editor pre,
+  ::ng-deep .ql-editor blockquote,
+  ::ng-deep .ql-editor h1,
+  ::ng-deep .ql-editor h2,
+  ::ng-deep .ql-editor h3,
+  ::ng-deep .ql-editor h4,
+  ::ng-deep .ql-editor h5,
+  ::ng-deep .ql-editor h6 {
+    margin: 0;
+    padding: 0;
+    counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+  }
+  ::ng-deep .ql-editor ol,
+  ::ng-deep .ql-editor ul {
+    padding-left: 1.5em;
+  }
+  ::ng-deep .ql-editor ol > li,
+  ::ng-deep .ql-editor ul > li {
+    list-style-type: none;
+  }
+  ::ng-deep .ql-editor ul > li::before {
+    content: '\2022';
+  }
+  ::ng-deep .ql-editor ul[data-checked=true],
+  ::ng-deep .ql-editor ul[data-checked=false] {
+    pointer-events: none;
+  }
+  ::ng-deep .ql-editor ul[data-checked=true] > li *,
+  ::ng-deep .ql-editor ul[data-checked=false] > li * {
+    pointer-events: all;
+  }
+  ::ng-deep .ql-editor ul[data-checked=true] > li::before,
+  ::ng-deep .ql-editor ul[data-checked=false] > li::before {
+    color: #777;
+    cursor: pointer;
+    pointer-events: all;
+  }
+  ::ng-deep .ql-editor ul[data-checked=true] > li::before {
+    content: '\2611';
+  }
+  ::ng-deep .ql-editor ul[data-checked=false] > li::before {
+    content: '\2610';
+  }
+  ::ng-deep .ql-editor li::before {
+    display: inline-block;
+    white-space: nowrap;
+    width: 1.2em;
+  }
+  ::ng-deep .ql-editor li:not(.ql-direction-rtl)::before {
+    margin-left: -1.5em;
+    margin-right: 0.3em;
+    text-align: right;
+  }
+  ::ng-deep .ql-editor li.ql-direction-rtl::before {
+    margin-left: 0.3em;
+    margin-right: -1.5em;
+  }
+  ::ng-deep .ql-editor ol li:not(.ql-direction-rtl),
+  ::ng-deep .ql-editor ul li:not(.ql-direction-rtl) {
+    padding-left: 1.5em;
+  }
+  ::ng-deep .ql-editor ol li.ql-direction-rtl,
+  ::ng-deep .ql-editor ul li.ql-direction-rtl {
+    padding-right: 1.5em;
+  }
+  ::ng-deep .ql-editor ol li {
+    counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+    counter-increment: list-0;
+  }
+  ::ng-deep .ql-editor ol li:before {
+    content: counter(list-0, decimal) '. ';
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-1 {
+    counter-increment: list-1;
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-1:before {
+    content: counter(list-1, lower-alpha) '. ';
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-1 {
+    counter-reset: list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-2 {
+    counter-increment: list-2;
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-2:before {
+    content: counter(list-2, lower-roman) '. ';
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-2 {
+    counter-reset: list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-3 {
+    counter-increment: list-3;
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-3:before {
+    content: counter(list-3, decimal) '. ';
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-3 {
+    counter-reset: list-4 list-5 list-6 list-7 list-8 list-9;
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-4 {
+    counter-increment: list-4;
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-4:before {
+    content: counter(list-4, lower-alpha) '. ';
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-4 {
+    counter-reset: list-5 list-6 list-7 list-8 list-9;
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-5 {
+    counter-increment: list-5;
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-5:before {
+    content: counter(list-5, lower-roman) '. ';
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-5 {
+    counter-reset: list-6 list-7 list-8 list-9;
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-6 {
+    counter-increment: list-6;
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-6:before {
+    content: counter(list-6, decimal) '. ';
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-6 {
+    counter-reset: list-7 list-8 list-9;
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-7 {
+    counter-increment: list-7;
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-7:before {
+    content: counter(list-7, lower-alpha) '. ';
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-7 {
+    counter-reset: list-8 list-9;
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-8 {
+    counter-increment: list-8;
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-8:before {
+    content: counter(list-8, lower-roman) '. ';
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-8 {
+    counter-reset: list-9;
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-9 {
+    counter-increment: list-9;
+  }
+  ::ng-deep .ql-editor ol li.ql-indent-9:before {
+    content: counter(list-9, decimal) '. ';
+  }
+  ::ng-deep .ql-editor .ql-indent-1:not(.ql-direction-rtl) {
+    padding-left: 3em;
+  }
+  ::ng-deep .ql-editor li.ql-indent-1:not(.ql-direction-rtl) {
+    padding-left: 4.5em;
+  }
+  ::ng-deep .ql-editor .ql-indent-1.ql-direction-rtl.ql-align-right {
+    padding-right: 3em;
+  }
+  ::ng-deep .ql-editor li.ql-indent-1.ql-direction-rtl.ql-align-right {
+    padding-right: 4.5em;
+  }
+  ::ng-deep .ql-editor .ql-indent-2:not(.ql-direction-rtl) {
+    padding-left: 6em;
+  }
+  ::ng-deep .ql-editor li.ql-indent-2:not(.ql-direction-rtl) {
+    padding-left: 7.5em;
+  }
+  ::ng-deep .ql-editor .ql-indent-2.ql-direction-rtl.ql-align-right {
+    padding-right: 6em;
+  }
+  ::ng-deep .ql-editor li.ql-indent-2.ql-direction-rtl.ql-align-right {
+    padding-right: 7.5em;
+  }
+  ::ng-deep .ql-editor .ql-indent-3:not(.ql-direction-rtl) {
+    padding-left: 9em;
+  }
+  ::ng-deep .ql-editor li.ql-indent-3:not(.ql-direction-rtl) {
+    padding-left: 10.5em;
+  }
+  ::ng-deep .ql-editor .ql-indent-3.ql-direction-rtl.ql-align-right {
+    padding-right: 9em;
+  }
+  ::ng-deep .ql-editor li.ql-indent-3.ql-direction-rtl.ql-align-right {
+    padding-right: 10.5em;
+  }
+  ::ng-deep .ql-editor .ql-indent-4:not(.ql-direction-rtl) {
+    padding-left: 12em;
+  }
+  ::ng-deep .ql-editor li.ql-indent-4:not(.ql-direction-rtl) {
+    padding-left: 13.5em;
+  }
+  ::ng-deep .ql-editor .ql-indent-4.ql-direction-rtl.ql-align-right {
+    padding-right: 12em;
+  }
+  ::ng-deep .ql-editor li.ql-indent-4.ql-direction-rtl.ql-align-right {
+    padding-right: 13.5em;
+  }
+  ::ng-deep .ql-editor .ql-indent-5:not(.ql-direction-rtl) {
+    padding-left: 15em;
+  }
+  ::ng-deep .ql-editor li.ql-indent-5:not(.ql-direction-rtl) {
+    padding-left: 16.5em;
+  }
+  ::ng-deep .ql-editor .ql-indent-5.ql-direction-rtl.ql-align-right {
+    padding-right: 15em;
+  }
+  ::ng-deep .ql-editor li.ql-indent-5.ql-direction-rtl.ql-align-right {
+    padding-right: 16.5em;
+  }
+  ::ng-deep .ql-editor .ql-indent-6:not(.ql-direction-rtl) {
+    padding-left: 18em;
+  }
+  ::ng-deep .ql-editor li.ql-indent-6:not(.ql-direction-rtl) {
+    padding-left: 19.5em;
+  }
+  ::ng-deep .ql-editor .ql-indent-6.ql-direction-rtl.ql-align-right {
+    padding-right: 18em;
+  }
+  ::ng-deep .ql-editor li.ql-indent-6.ql-direction-rtl.ql-align-right {
+    padding-right: 19.5em;
+  }
+  ::ng-deep .ql-editor .ql-indent-7:not(.ql-direction-rtl) {
+    padding-left: 21em;
+  }
+  ::ng-deep .ql-editor li.ql-indent-7:not(.ql-direction-rtl) {
+    padding-left: 22.5em;
+  }
+  ::ng-deep .ql-editor .ql-indent-7.ql-direction-rtl.ql-align-right {
+    padding-right: 21em;
+  }
+  ::ng-deep .ql-editor li.ql-indent-7.ql-direction-rtl.ql-align-right {
+    padding-right: 22.5em;
+  }
+  ::ng-deep .ql-editor .ql-indent-8:not(.ql-direction-rtl) {
+    padding-left: 24em;
+  }
+  ::ng-deep .ql-editor li.ql-indent-8:not(.ql-direction-rtl) {
+    padding-left: 25.5em;
+  }
+  ::ng-deep .ql-editor .ql-indent-8.ql-direction-rtl.ql-align-right {
+    padding-right: 24em;
+  }
+  ::ng-deep .ql-editor li.ql-indent-8.ql-direction-rtl.ql-align-right {
+    padding-right: 25.5em;
+  }
+  ::ng-deep .ql-editor .ql-indent-9:not(.ql-direction-rtl) {
+    padding-left: 27em;
+  }
+  ::ng-deep .ql-editor li.ql-indent-9:not(.ql-direction-rtl) {
+    padding-left: 28.5em;
+  }
+  ::ng-deep .ql-editor .ql-indent-9.ql-direction-rtl.ql-align-right {
+    padding-right: 27em;
+  }
+  ::ng-deep .ql-editor li.ql-indent-9.ql-direction-rtl.ql-align-right {
+    padding-right: 28.5em;
+  }
+  ::ng-deep .ql-editor .ql-video {
+    display: block;
+    max-width: 100%;
+  }
+  ::ng-deep .ql-editor .ql-video.ql-align-center {
+    margin: 0 auto;
+  }
+  ::ng-deep .ql-editor .ql-video.ql-align-right {
+    margin: 0 0 0 auto;
+  }
+  ::ng-deep .ql-editor .ql-bg-black {
+    background-color: #000;
+  }
+  ::ng-deep .ql-editor .ql-bg-red {
+    background-color: #e60000;
+  }
+  ::ng-deep .ql-editor .ql-bg-orange {
+    background-color: #f90;
+  }
+  ::ng-deep .ql-editor .ql-bg-yellow {
+    background-color: #ff0;
+  }
+  ::ng-deep .ql-editor .ql-bg-green {
+    background-color: #008a00;
+  }
+  ::ng-deep .ql-editor .ql-bg-blue {
+    background-color: #06c;
+  }
+  ::ng-deep .ql-editor .ql-bg-purple {
+    background-color: #93f;
+  }
+  ::ng-deep .ql-editor .ql-color-white {
+    color: #fff;
+  }
+  ::ng-deep .ql-editor .ql-color-red {
+    color: #e60000;
+  }
+  ::ng-deep .ql-editor .ql-color-orange {
+    color: #f90;
+  }
+  ::ng-deep .ql-editor .ql-color-yellow {
+    color: #ff0;
+  }
+  ::ng-deep .ql-editor .ql-color-green {
+    color: #008a00;
+  }
+  ::ng-deep .ql-editor .ql-color-blue {
+    color: #06c;
+  }
+  ::ng-deep .ql-editor .ql-color-purple {
+    color: #93f;
+  }
+  ::ng-deep .ql-editor .ql-font-serif {
+    font-family: Georgia, Times New Roman, serif;
+  }
+  ::ng-deep .ql-editor .ql-font-monospace {
+    font-family: Monaco, Courier New, monospace;
+  }
+  ::ng-deep .ql-editor .ql-size-small {
+    font-size: 0.75em;
+  }
+  ::ng-deep .ql-editor .ql-size-large {
+    font-size: 1.5em;
+  }
+  ::ng-deep .ql-editor .ql-size-huge {
+    font-size: 2.5em;
+  }
+  ::ng-deep .ql-editor .ql-direction-rtl {
+    direction: rtl;
+    text-align: inherit;
+  }
+  ::ng-deep .ql-editor .ql-align-center {
+    text-align: center;
+  }
+  ::ng-deep .ql-editor .ql-align-justify {
+    text-align: justify;
+  }
+  ::ng-deep .ql-editor .ql-align-right {
+    text-align: right;
+  }
+  ::ng-deep .ql-editor.ql-blank::before {
+    color: rgba(0,0,0,0.6);
+    content: attr(data-placeholder);
+    font-style: italic;
+    left: 15px;
+    pointer-events: none;
+    position: absolute;
+    right: 15px;
+  }
+
+  .sidenav {
+    padding: 20px;
+  }
+
+  

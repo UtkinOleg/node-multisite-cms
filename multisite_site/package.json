@@ -1,0 +1,24 @@
+{
+  "name": "multisite-lite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "site.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "*",
+    "body-parser": "*",
+    "node-fetch": "^2.6.0",
+    "connect-ensure-login": "*",
+    "cookie-parser": "*",
+    "express": "*",
+    "jade": "*",
+    "nodemailer": "^6.4.2",
+    "passport": "*",
+    "passport-local": "*",
+    "request": "^2.88.0"
+  }
+}
