@@ -1,4 +1,4 @@
-# Multi Site Lite Version 1.0
+# Multi Site Lite Version 1.0.1
 
 Multisite is Content Management System (CMS) based on NodeJS and Angular 9
 
