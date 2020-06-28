@@ -46,15 +46,11 @@ NodeJS Application
 
 - Setup api_url and site_data in file **multisite_site\models\config.js** 
 
-- Setup environment paths **\multisite_admin\_environments** in files (api hostname and site hostname)
+- Rename folder **\multisite_admin\\_environments** to **\multisite_admin\environments** 
 
-- Rename folder **\multisite_admin\_environments** to **\multisite_admin\environments** 
+- Setup environment paths **\multisite_admin\environments** (api hostname and site hostname)
 
 - Build **multisite_admin**
-
-- Run from folder **multisite_admin** `ng build --prod` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-- Copy CMS application from the `dist/` to the `multisite_api/public` folder
 
 - Run node.js applications **multisite_api** and **multisite_site**
 
