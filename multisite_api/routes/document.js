@@ -65,8 +65,8 @@ router.put(config.url, cors(), (req, res, next) => {
       return res.status(500).json(checkInput(document))
     }
 
-    let query2 = client.query('UPDATE documents SET date_modify=($1), name=($2), url=($3), content=($4) WHERE id=($5);',
-    [ date, document.name, document.url, document.content, document.id ]);
+    let query2 = client.query('UPDATE documents SET date_modify=($1), name=($2), url=($3), content=($4), published=($5) WHERE id=($6);',
+    [ date, document.name, document.url, document.content, document.published, document.id ]);
 
     query2.on('error', (err) => {
       done();
@@ -100,8 +100,8 @@ router.delete(config.url + '/:id', cors(), (req, res, next) => {
       return res.status(500).json(checkInput(document))
     }
 
-    let query2 = client.query('UPDATE documents SET date_modify=($1), deleted=($2) WHERE id=($3);',
-    [ date, true, req.params.id]);
+    let query2 = client.query('UPDATE documents SET date_modify=($1), deleted=($2), published=($3) WHERE id=($4);',
+    [ date, true, false, req.params.id]);
 
     query2.on('error', (err) => {
       done();

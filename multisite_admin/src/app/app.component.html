@@ -4,6 +4,9 @@
     <h1 class="example-app-name">{{title}}</h1>
     <span class="example-spacer"></span>
     <button i18n mat-raised-button
+      (click)="$event.stopPropagation();previewSite()">Preview Site
+    </button>&nbsp;&nbsp;
+    <button i18n mat-raised-button
       (click)="$event.stopPropagation();genSitemap()">Gen Sitemap
     </button>
 

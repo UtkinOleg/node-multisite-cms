@@ -8,6 +8,9 @@ const fetch = require('node-fetch');
 const urls = [models.api_url + models.document_prefix + models.default_type, 
   models.api_url + models.options_prefix + models.default_type];
 
+const preview_urls = [models.api_url + models.document_prefix + models.default_type + '&preview=true', 
+  models.api_url + models.options_prefix + models.default_type];
+  
 const header = {
     method: 'get',
     headers: { 'Content-Type': 'application/json' }
@@ -102,7 +105,7 @@ router.get('/feedback/:type/:url', (req, res, next) => {
 // Route single page
 router.get('/'+models.default_type+'/:url', (req, res, next) => {
   process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
-  Promise.all(urls.map(url => fetchJSON(url, header))).then(data => {
+  Promise.all(req.query.preview ? preview_urls.map(url => fetchJSON(url, header)) : urls.map(url => fetchJSON(url, header))).then(data => {
     if (data[0] && data[1]) {
       models.site_data.pages = data[0];
       models.site_data.options = data[1][0];

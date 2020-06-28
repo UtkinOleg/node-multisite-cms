@@ -55,13 +55,16 @@ export class EditrecordsComponent implements OnInit {
       crumburl: '',
       header: '',
       footer: '',
+      main_header: '',
+      main_footer: '',
       css: ''
     }
   };
 
   document: any = { 
     name: '', 
-    url: '', 
+    url: '',
+    published: false, 
     content: {
       seo_title: '',
       seo_description: '',
@@ -69,7 +72,7 @@ export class EditrecordsComponent implements OnInit {
       text: '',
       picture: '',
       content: []
-   }
+    }
   };
 
   docJson: any = { 
@@ -131,7 +134,9 @@ export class EditrecordsComponent implements OnInit {
       })
       this.formOptions = new FormGroup({
         header: new FormControl(),
-        footer: new FormControl()
+        footer: new FormControl(),
+        main_header: new FormControl(),
+        main_footer: new FormControl()
       })
     }
 
@@ -179,22 +184,10 @@ export class EditrecordsComponent implements OnInit {
     this.document.content.breadcrumbs = [];
     this.document.content.text = '';
     this.document.content.content = [];
-
-    this.options.content.title = '';
-    this.options.content.crumb = '';
-    this.options.content.crumburl = '';
-    this.options.content.description = '';
-    this.options.content.header = '';
-    this.options.content.footer = '';
-    this.options.content.css = '';
-
     this.formContent = [];
     this.formQuestionsContent = [];
     this.formQuestionsContentItems = [];
- 
     this.form.get('html').setValue(this.document.content.text);
-    this.form.get('header').setValue(this.options.content.header);
-    this.form.get('footer').setValue(this.options.content.footer);
   }
 
   addJson() {
@@ -233,6 +226,8 @@ export class EditrecordsComponent implements OnInit {
             this.options = d;
             this.formOptions.get('header').setValue(this.options.content.header);
             this.formOptions.get('footer').setValue(this.options.content.footer);
+            this.formOptions.get('main_header').setValue(this.options.content.main_header);
+            this.formOptions.get('main_footer').setValue(this.options.content.main_footer);
         })
       },
       error =>  {
@@ -246,7 +241,11 @@ export class EditrecordsComponent implements OnInit {
   }
 
   previewDoc(element: any) {
-    window.open(this._records.previewSite + '/' + this.type + '/' + element.url, element.name, 'width=1200, height=900')
+    window.open(this._records.previewSite + '/' + this.type + '/' + element.url + '?preview=true', element.name, 'width=1200, height=900')
+  }
+
+  previewSite() {
+    window.open(this._records.previewSite, this._records.previewSite, 'width=1200, height=900')
   }
 
   getItem(items: any[]): string {
@@ -352,10 +351,20 @@ export class EditrecordsComponent implements OnInit {
   saveOptions (): void {
     this.options.content.header = this.formOptions.get('header').value;
     this.options.content.footer = this.formOptions.get('footer').value;
+    this.options.content.main_header = this.formOptions.get('main_header').value;
+    this.options.content.main_footer = this.formOptions.get('main_footer').value;
     this._records.postOptions(this.options, this.type).subscribe(data => {
+      this.snackBar.open('Options saved', '', {
+        duration: 2000,
+      });
     }, error => console.log(<any>error))
   }
   
+  publish(): void {
+    this.document.published = true;
+    this.saveData(true)  
+  }
+
   saveData(closeDlg: boolean): void {
     if (!this.document.name) {
     } else {
@@ -378,6 +387,9 @@ export class EditrecordsComponent implements OnInit {
         this._records.putDocument(this.document).subscribe(data => {
           if (data.success) { 
             this.openEditor = !closeDlg;
+            if (!closeDlg) this.snackBar.open('Document saved', '', {
+              duration: 2000,
+            });
             if (closeDlg) this.reloadData();
           }
         }, error => console.log(<any>error))

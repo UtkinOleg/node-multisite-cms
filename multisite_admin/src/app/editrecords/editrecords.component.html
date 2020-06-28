@@ -63,7 +63,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="published">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Publish</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>Published</th>
           <td mat-cell *matCellDef="let element">
             <mat-icon *ngIf="element.published" aria-hidden="false" aria-label="Check">check</mat-icon>
           </td>
@@ -83,12 +83,12 @@
           class="example-element-row"
           (click)="editDoc(element)"></tr>
       </table>
-
       </mat-tab>
+
       <mat-tab>
         <ng-template mat-tab-label>
             <mat-icon>done</mat-icon>
-            &nbsp;Main content&nbsp;<span *ngIf="options.dateM" style="color:gray">({{options.dateM}})</span>
+            &nbsp;Content options&nbsp;<span *ngIf="options.dateM" style="color:gray">({{options.dateM}})</span>
           </ng-template>          
         <br/>
         <mat-form-field class="full-width">
@@ -104,19 +104,14 @@
         </mat-form-field>
 
         <mat-form-field class="full-width">
-          <mat-label>Description</mat-label>
+          <mat-label>SEO Description</mat-label>
           <textarea matInput [(ngModel)]="options.content.description" rows="4"></textarea>
         </mat-form-field>
 
-        <mat-form-field class="full-width">
-          <mat-label>Content CSS</mat-label>
-          <textarea matInput [(ngModel)]="options.content.css" rows="10"></textarea>
-        </mat-form-field>
-
         <div [formGroup]="formOptions">
-          <mat-label>Content Header</mat-label>
+          <mat-label>Main Content</mat-label>
           <div formControlName="header" [ngxSummernote]="config"></div>
-          <mat-label>Content Footer</mat-label>
+          <mat-label>Main Content Footer</mat-label>
           <div formControlName="footer" [ngxSummernote]="config"></div>
         </div>
 
@@ -124,6 +119,50 @@
         <button i18n mat-raised-button
           (click)="saveOptions()" 
           color="primary">Save
+        </button>
+        &nbsp;<button i18n mat-raised-button
+        (click)="previewSite()">
+        <mat-icon class="example-icon" aria-hidden="false" aria-label="Preview">pageview</mat-icon> Preview
+        </button>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+            Header & Footer
+          </ng-template>          
+        <br/>
+        <div [formGroup]="formOptions">
+          <mat-label>Header</mat-label>
+          <div formControlName="main_header" [ngxSummernote]="config"></div>
+          <mat-label>Footer</mat-label>
+          <div formControlName="main_footer" [ngxSummernote]="config"></div>
+        </div>
+        <br>
+        <button i18n mat-raised-button
+          (click)="saveOptions()" 
+          color="primary">Save
+        </button>
+        &nbsp;<button i18n mat-raised-button
+        (click)="previewSite()">
+        <mat-icon class="example-icon" aria-hidden="false" aria-label="Preview">pageview</mat-icon> Preview
+        </button>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+            Content CSS
+          </ng-template>          
+        <br/>
+        <mat-form-field class="full-width">
+          <mat-label>Content CSS</mat-label>
+          <textarea matInput [(ngModel)]="options.content.css" rows="40"></textarea>
+        </mat-form-field>
+        <br>
+        <button i18n mat-raised-button
+          (click)="saveOptions()" 
+          color="primary">Save
+        </button>
+        &nbsp;<button i18n mat-raised-button
+        (click)="previewSite()">
+        <mat-icon class="example-icon" aria-hidden="false" aria-label="Preview">pageview</mat-icon> Preview
         </button>
       </mat-tab>
     </mat-tab-group>    
@@ -139,11 +178,11 @@
     </mat-form-field>
 
     <mat-form-field class="full-width">
-      <input matInput placeholder="СЕО name" [(ngModel)]="document.content.seo_title" class="validate">
+      <input matInput placeholder="SЕО Name" [(ngModel)]="document.content.seo_title" class="validate">
     </mat-form-field>
 
     <mat-form-field class="full-width">
-      <input matInput placeholder="СЕО description" [(ngModel)]="document.content.seo_description" class="validate">
+      <input matInput placeholder="SЕО Description" [(ngModel)]="document.content.seo_description" class="validate">
     </mat-form-field>
 
     <mat-form-field class="full-width">
@@ -191,7 +230,7 @@
       <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
           <mat-panel-title i18n>
-            <strong>Main content</strong>
+            <strong>Content options</strong>
           </mat-panel-title>
         </mat-expansion-panel-header>
 
@@ -285,6 +324,7 @@
           </mat-expansion-panel>
         </mat-accordion>  
       </mat-expansion-panel>
+
     </mat-accordion>
 
     <br/>
@@ -299,9 +339,14 @@
         color="primary">Save & Close
       </button>&nbsp;
       <button i18n mat-raised-button
+      *ngIf="!newDocument && !document.published"
+        (click)="publish()" >
+        <mat-icon aria-hidden="false" aria-label="Publish">check</mat-icon> Publish
+      </button>&nbsp;
+      <button i18n mat-raised-button
         *ngIf="!newDocument"
         (click)="previewDoc(document)">
-        <mat-icon class="example-icon" aria-hidden="false" aria-label="Preview">pageview</mat-icon> Preview
+        <mat-icon aria-hidden="false" aria-label="Preview">pageview</mat-icon> Preview
       </button>&nbsp;
       <button i18n mat-raised-button
         (click)="cancel()"

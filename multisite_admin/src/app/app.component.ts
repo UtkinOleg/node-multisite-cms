@@ -49,6 +49,10 @@ export class AppComponent {
     this._records.logout()
   }
 
+  previewSite(): void {
+    window.open(this._records.previewSite, 'width=1200, height=900')
+  }
+
   genSitemap(): void {
     const dialogRef = this.confirmDialog.open(confirmDialog, {
       data: { message: 'Do you want to generate sitemap.xml?' }
@@ -56,7 +60,7 @@ export class AppComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        window.open(this._records.previewSite + '/gensitemap', 'width=1200, height=900')
+        window.open(this._records.apiUrlHead + '/gensitemap', 'width=1200, height=900')
       }
     })
   }

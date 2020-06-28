@@ -1,7 +1,7 @@
 // API Hostname
 module.exports.api_url = 'http://<api hostname>';
 
-module.exports.document_prefix = '/document/api/v1?type=';
+module.exports.document_prefix = '/docs/api/v1?type=';
 module.exports.options_prefix = '/options/api/v1?type=';
 module.exports.types_prefix = '/types/api/v1?type=';
 
