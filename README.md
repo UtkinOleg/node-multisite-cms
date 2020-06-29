@@ -38,21 +38,15 @@ NodeJS Application
 
 ## Installation
 
-- Install PostgreSQL Server
+- Install PostgreSQL on your server or if you use Amazon RDS for PostgreSQL create database **site** and deploy scheme file **scheme.sql**
 
-- Create database **site** and deploy scheme **scheme.sql**
+- Setup postgres connection in file **\multisite_api\models\config.js** , api_url and site_data (title, description and etc) in file **multisite_site\models\config.js** 
 
-- Setup postgres connection in file **\multisite_api\models\config.js**
+- Setup CMS Dashboard - rename folder **\multisite_admin\\_environments** to **\multisite_admin\environments** and setup environment paths **\multisite_admin\environments** (api hostname and site hostname)
 
-- Setup api_url and site_data in file **multisite_site\models\config.js** 
+- Build CMS Dashboard in production **multisite_admin**
 
-- Rename folder **\multisite_admin\\_environments** to **\multisite_admin\environments** 
-
-- Setup environment paths **\multisite_admin\environments** (api hostname and site hostname)
-
-- Build **multisite_admin**
-
-- Run node.js applications **multisite_api** and **multisite_site**
+- Run node.js applications **multisite_api** and **multisite_site** on your platform
 
 ## Creator
 

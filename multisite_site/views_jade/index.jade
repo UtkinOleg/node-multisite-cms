@@ -5,15 +5,19 @@ block content
     .content
       - if (item === 'all')
         h1=options.content.title
-        .header!=options.content.header
+        - if(options.content.header)  
+          .header!=options.content.header
         .flex
           each page, index in pages
             div
-              img(src=page.content.picture)
+              - if(page.content.picture)  
+                img(src=page.content.picture)
               div
                 h1=page.name
-                div!=page.content.text
-        .footer!=options.content.footer
+                - if(page.content.text)  
+                  div!=page.content.text
+        - if(options.content.footer)  
+          .footer!=options.content.footer
       - else 
         each page, index in pages
           - if (item == page.url)

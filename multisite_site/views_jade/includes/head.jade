@@ -1,14 +1,14 @@
 head
-  title=title
-  meta(name="description", content=description)
+  title=site_data.title
+  meta(name="description", content=site_data.description)
   meta(charset="utf-8")
   meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
   meta(name="viewport", content="width=device-width,initial-scale=1")
   meta(property="og:type", content="article")
-  meta(property="og:title", content=title)
-  meta(property="og:description", content=description)
-  meta(property="og:site_name", content=title)
-  meta(property="og:url", content=url)
+  meta(property="og:title", content=site_data.title)
+  meta(property="og:description", content=site_data.description)
+  meta(property="og:site_name", content=site_data.title)
+  meta(property="og:url", content=site_data.url)
   link(rel="stylesheet", href="/css/app.css?v=1.0")
   link(rel="icon", type="image/x-icon", href="/img/favicon.ico")
   style!=options.content.css
