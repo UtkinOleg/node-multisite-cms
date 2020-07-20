@@ -14,7 +14,8 @@ import { confirmDialog } from './dialog-confirm/dialog-confirm';
 })
 export class AppComponent {
   mobileQuery: MediaQueryList;
-  title;
+  title: string;
+  siteURL: string;
   public counter: number = 0;
   errorMessage : any;
   private _mobileQueryListener: () => void;
@@ -34,7 +35,8 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.title = this._records.title + ' ' + this._records.previewSite;
+    this.title = this._records.title;
+    this.siteURL = this._records.previewSite;
   }
 
   ngOnDestroy(): void {

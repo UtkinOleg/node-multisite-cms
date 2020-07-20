@@ -1,7 +1,7 @@
 <mat-drawer-container style="height: 100%;" autosize>
   <mat-progress-bar style="position: fixed;top: 0;z-index: 100;" *ngIf="showProgress" mode="buffer"></mat-progress-bar>
   
-  <mat-card *ngIf="!openEditor && !jsonEditor">
+  <mat-card *ngIf="!openEditor">
       <mat-tab-group>
         <mat-tab>
           <ng-template mat-tab-label>
@@ -87,12 +87,11 @@
 
       <mat-tab>
         <ng-template mat-tab-label>
-            <mat-icon>done</mat-icon>
-            &nbsp;Content options&nbsp;<span *ngIf="options.dateM" style="color:gray">({{options.dateM}})</span>
+            Root {{type}} content&nbsp;<span *ngIf="options.dateM" style="color:gray">(modified {{options.dateM}})</span>
           </ng-template>          
         <br/>
         <mat-form-field class="full-width">
-          <input matInput placeholder="Header" [(ngModel)]="options.content.title" class="validate">
+          <input matInput placeholder="H1 Header" [(ngModel)]="options.content.title" class="validate">
         </mat-form-field>
 
         <mat-form-field class="full-width">
@@ -109,9 +108,9 @@
         </mat-form-field>
 
         <div [formGroup]="formOptions">
-          <mat-label>Main Content</mat-label>
+          <mat-label>Root Content</mat-label>
           <div formControlName="header" [ngxSummernote]="config"></div>
-          <mat-label>Main Content Footer</mat-label>
+          <mat-label>Root Content Footer</mat-label>
           <div formControlName="footer" [ngxSummernote]="config"></div>
         </div>
 
@@ -127,7 +126,7 @@
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
-            Header & Footer
+            {{type}} Header & Footer
           </ng-template>          
         <br/>
         <div [formGroup]="formOptions">
@@ -148,11 +147,11 @@
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
-            Content CSS
+            {{type}} CSS
           </ng-template>          
         <br/>
         <mat-form-field class="full-width">
-          <mat-label>Content CSS</mat-label>
+          <mat-label>CSS</mat-label>
           <textarea matInput [(ngModel)]="options.content.css" rows="40"></textarea>
         </mat-form-field>
         <br>
@@ -230,7 +229,7 @@
       <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
           <mat-panel-title i18n>
-            <strong>Content options</strong>
+            <strong>Root content</strong>
           </mat-panel-title>
         </mat-expansion-panel-header>
 
@@ -340,8 +339,13 @@
       </button>&nbsp;
       <button i18n mat-raised-button
       *ngIf="!newDocument && !document.published"
-        (click)="publish()" >
+        (click)="publish()">
         <mat-icon aria-hidden="false" aria-label="Publish">check</mat-icon> Publish
+      </button>&nbsp;
+      <button i18n mat-raised-button
+      *ngIf="!newDocument && document.published"
+        (click)="unpublish()">
+        Unpublish
       </button>&nbsp;
       <button i18n mat-raised-button
         *ngIf="!newDocument"

@@ -1,7 +1,7 @@
 <div class="example-container">
   <mat-toolbar color="primary" class="example-toolbar">
     <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-    <h1 class="example-app-name">{{title}}</h1>
+    <h1 class="example-app-name">{{title}}&nbsp;<a [href]="siteURL" target="_blank">{{siteURL}}</a></h1>
     <span class="example-spacer"></span>
     <button i18n mat-raised-button
       (click)="$event.stopPropagation();previewSite()">Preview Site

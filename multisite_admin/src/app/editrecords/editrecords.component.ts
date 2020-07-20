@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -9,20 +9,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { format } from 'date-fns';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-
 import { RecordsService } from './../app.service';
 import { confirmDialog } from '../dialog-confirm/dialog-confirm';
-import { CssSelector } from '@angular/compiler';
-
-export interface category {
-  type: string;
-  name: string;
-}
-
-export interface Param {
-  name: string;
-  value: string;
-}
+import { Param, Options, Document } from '../app.classes';
 
 @Component({
   selector: 'app-editrecords',
@@ -37,62 +26,25 @@ export interface Param {
   ]  
 })
 export class EditrecordsComponent implements OnInit {
-  dataSource = new MatTableDataSource([]);
-  dataOptions = [];
+  dataSource = new MatTableDataSource([]); // Document data
   columnsToDisplay = ['name', 'api', 'date', 'date2', 'edit', 'copy', 'preview', 'published', 'delete'];
   expandedElement: any | null;
   selectedElement: any | null;
   errorMessage: string;
-  openEditor: boolean = false;
-  jsonEditor: boolean = false;
+  openEditor: boolean = false; // Flag for indicating opened document editor
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-
-  options: any = {
-    content: {
-      title: '',
-      description: '',
-      crumb: '',
-      crumburl: '',
-      header: '',
-      footer: '',
-      main_header: '',
-      main_footer: '',
-      css: ''
-    }
-  };
-
-  document: any = { 
-    name: '', 
-    url: '',
-    published: false, 
-    content: {
-      seo_title: '',
-      seo_description: '',
-      breadcrumbs: [],
-      text: '',
-      picture: '',
-      content: []
-    }
-  };
-
-  docJson: any = { 
-    name: '', 
-    url: '', 
-    content: null
-  };
-  
-  urlResponse: any;
+  options: Options = new Options(); // Object for site options
+  document: Document = new Document(); // Current document object
+  urlResponse: any | null;
   form: FormGroup;
   formOptions: FormGroup;
   formContent: any[];
-
   formQuestionsContent: any[];
   formQuestionsContentItems: any[];
   formQuestionsOptions: any[];
   formQuestionsOptionsItems: any[];
-
-  config: any = {
-    height: '200px'
+  config: any = { // HTML Editor config 
+    height: '300px'
   };  
   params: Param[];
   breadcrumbs: Param[];
@@ -106,13 +58,11 @@ export class EditrecordsComponent implements OnInit {
   headerParameter = new FormControl();
   headerParamValue = new FormControl();
   showMore: boolean = false;
-  helps: string;
-  moreHelp: string;
   sub: any;
-  type: string;
-  newDocument: boolean = false;
-  showProgress: boolean = false;
-  selectable = true;
+  type: string; // Set current type of content (default is page)
+  newDocument: boolean = false; // Indicate new document status
+  showProgress: boolean = false; // Indicate show progress bar
+  selectable: boolean = true;
   filterValue: string;
   selectedZone: number;
   selectedPage: any;
@@ -148,21 +98,20 @@ export class EditrecordsComponent implements OnInit {
     this.sub.unsubscribe();
   }
 
-  help(index: number): void {
-    this.helps = this._records.messages[index];
-    this.moreHelp = this._records.messagesMore[index];
-  }
-
   initApp() : void {
+    // Check current content type from URL
     this.sub = this.route.params.subscribe(params => {
       this.type = params['type'];
+      // Switch open editor to false
       this.openEditor = false;
-      this.jsonEditor = false;
+      // Set CMS title
       this.titleHTML.setTitle(this._records.title + ' - ' + this.type);
+      // Load site data
       this.reloadData()
     })
   }  
 
+  // Show message through SnackBar
   openSnackBar(arr: any, param?: string) {
     let message = arr[0] + (param ? param : '') + arr[1];
     this.snackBar.open(message, '', {
@@ -170,37 +119,36 @@ export class EditrecordsComponent implements OnInit {
     });
   }
 
-  getColor(element: any): string {
-    return element.content.selected_zone ? 'warn' : (element.content.breadcrumbs.length === 0 ? 'accent' : 'primary')
+  // Get current content color
+  // If no breadcrumbs set accent color
+  getColor(element: Document): string {
+    return element.content.breadcrumbs.length === 0 ? 'accent' : 'primary'
   }
 
+  // Create new content
   addDocument() {
+    // Switch mode
     this.newDocument = true;
     this.openEditor = true;
-    this.document.name = '';
-    this.document.url = '';
-    this.document.content.seo_title = '';
-    this.document.content.seo_description = '';
-    this.document.content.breadcrumbs = [];
-    this.document.content.text = '';
-    this.document.content.content = [];
+    // Create new doc object
+    this.document = new Document();
+    // Clear form content
     this.formContent = [];
     this.formQuestionsContent = [];
     this.formQuestionsContentItems = [];
+    // Set default content HTML
     this.form.get('html').setValue(this.document.content.text);
   }
 
-  addJson() {
-    this.jsonEditor = true;
-    this.docJson.name = '';
-    this.docJson.url = '';
-  }
-
+  // Load site data
   reloadData() {
+    // Show progress
     this.showProgress = true;
     this.dataSource = new MatTableDataSource([]);
+    // Get docs from API
     this._records.getDocuments(this.type).subscribe(
       data => {
+        // Fill source array
         data.map(d => {
           d.dateC = format(new Date(d.date_create), 'dd-MM-yyyy HH:mm'); 
           d.dateM = d.date_modify ? format(new Date(d.date_modify), 'dd-MM-yyyy HH:mm') : ''; 
@@ -213,12 +161,12 @@ export class EditrecordsComponent implements OnInit {
       },
       error =>  {
         this.showProgress = false;
-        this.snackBar.open('Connection error', '', {
+        this.snackBar.open('Connection error. Can not load site data.', '', {
           duration: 2000,
         });
         this.errorMessage = <any>error
       });
-
+      // Get options from API
       this._records.getOptions(this.type).subscribe(
         data => {
           data.map(d => {
@@ -240,28 +188,36 @@ export class EditrecordsComponent implements OnInit {
   
   }
 
-  previewDoc(element: any) {
+  // Preview document
+  previewDoc(element: Document) {
     window.open(this._records.previewSite + '/' + this.type + '/' + element.url + '?preview=true', element.name, 'width=1200, height=900')
   }
 
+  // Preview site
   previewSite() {
     window.open(this._records.previewSite, this._records.previewSite, 'width=1200, height=900')
   }
 
+  // Get item string
   getItem(items: any[]): string {
     return items.length>0 ? items[0] + '...' : '<empty>'
   }
 
-  editDoc(element: any): void {
+  // Edit document
+  editDoc(element: Document): void {
+    // Switch mode on
     this.showProgress = true;
     this.openEditor = true;
     this.newDocument = false;
+    // Clear form content
     this.formContent = [];
     this.formQuestionsContent = [];
     this.formQuestionsContentItems = [];
+    // Set current document
     this.document = element;
+    // Set HTML content from doc
     this.form.get('html').setValue(this.document.content.text);
-
+    // Set internal document content
     if (this.document.content.content) {
       this.document.content.content.forEach(element => {
         this.formContent.push(new FormGroup({
@@ -274,24 +230,27 @@ export class EditrecordsComponent implements OnInit {
     } else {
       this.document.content.content = []
     }
-    
+    // Hide progress bar
     this.showProgress = false;
   }
 
-  addParam(n: any, v: any, params: Param[]): void{
+  // Add new parameter
+  addParam(n: any, v: any, params: Param[]): void {
     params.push({
       name: n.value,
       value: v.value
     })
   }
 
-  addContent(n: any, params: any[]): void{
+  // Add new content
+  addContent(n: any, params: any[]): void {
+    // Create form control
     this.formContent.push(new FormGroup({
       html: new FormControl()
     }));
-    
+    // Set value
     this.formContent[this.formContent.length-1].get('html').setValue('');
-    
+    // Set parameter
     params.push({
       name: n.value,
       text: '',
@@ -299,10 +258,12 @@ export class EditrecordsComponent implements OnInit {
     })
   }
 
+  // Add new item
   addItem(n: any, params: any[]) {
     params.push(n.value)
   }
 
+  // Remove parameter from Param[]
   remove(param: Param, params: Param[]): void {
     const index = params.indexOf(param);
     if (index >= 0) {
@@ -310,11 +271,13 @@ export class EditrecordsComponent implements OnInit {
     }
   }
 
+  // Delete document content
   delContent(index: number) {
+    // Prepare dialog
     const dialogRef = this.confirmDialog.open(confirmDialog, {
       data: { message: 'Are you really want to delete content?' }
     });
-
+    // Confirm Yes
     dialogRef.afterClosed().subscribe(result => {
       if (index >= 0 && result) {
         this.document.content.content.splice(index, 1);
@@ -323,6 +286,7 @@ export class EditrecordsComponent implements OnInit {
     })
   } 
 
+  // Up content inside document
   upContent(index: number) {
     if (index>0) {
       this.arrayMove(this.document.content.content, index, index-1);
@@ -330,6 +294,7 @@ export class EditrecordsComponent implements OnInit {
     }
   } 
 
+  // Down content inside document
   downContent(index: number) {
     if (index < this.document.content.content.length-1) {
       this.arrayMove(this.document.content.content, index, index+1);
@@ -337,22 +302,27 @@ export class EditrecordsComponent implements OnInit {
     }
   } 
 
+  // Move content inside document
   arrayMove(arr: any[], fromIndex: number, toIndex: number) {
     let element = arr[fromIndex];
     arr.splice(fromIndex, 1);
     arr.splice(toIndex, 0, element);
   }
 
+  // Cancel document editor
   cancel(): void {
     this.openEditor = false;
     this.reloadData()
   }
 
+  // Save site options
   saveOptions (): void {
+    // Set options content values
     this.options.content.header = this.formOptions.get('header').value;
     this.options.content.footer = this.formOptions.get('footer').value;
     this.options.content.main_header = this.formOptions.get('main_header').value;
     this.options.content.main_footer = this.formOptions.get('main_footer').value;
+    // API request
     this._records.postOptions(this.options, this.type).subscribe(data => {
       this.snackBar.open('Options saved', '', {
         duration: 2000,
@@ -360,16 +330,26 @@ export class EditrecordsComponent implements OnInit {
     }, error => console.log(<any>error))
   }
   
+  // Set publish switch on
   publish(): void {
     this.document.published = true;
     this.saveData(true)  
   }
 
+  // Set publish switch off
+  unpublish(): void {
+    this.document.published = false;
+    this.saveData(true)  
+  }
+
+  // Save document data
   saveData(closeDlg: boolean): void {
     if (!this.document.name) {
     } else {
+      // Get document content from HTML editor
       this.document.content.text = this.form.get('html').value;
       
+      // Get document content from HTML editor
       this.document.content.content.forEach((element, index) => {
         if (element.name === 'text' || element.name === 'right_img' || element.name === 'indent' || element.name === 'sub_title') {
           element.text = this.formContent[index].get('html').value
@@ -377,19 +357,23 @@ export class EditrecordsComponent implements OnInit {
       });
 
       if (this.newDocument) {
+        // If new document - POST API request
         this._records.postDocument(this.document, this.type).subscribe(data => {
           if (data.success) { 
             this.openEditor = !closeDlg;
+            // If done then reload data
             if (closeDlg) this.reloadData();
           }
         }, error => console.log(<any>error))
       } else {
+        // If exist document - PUT API request
         this._records.putDocument(this.document).subscribe(data => {
           if (data.success) { 
             this.openEditor = !closeDlg;
             if (!closeDlg) this.snackBar.open('Document saved', '', {
               duration: 2000,
             });
+            // If done then reload data
             if (closeDlg) this.reloadData();
           }
         }, error => console.log(<any>error))
@@ -397,14 +381,18 @@ export class EditrecordsComponent implements OnInit {
     }
   }
 
-  delDoc(element: any): void {
+  // Delete document
+  delDoc(element: Document): void {
+    // Prepare dialog
     const dialogRef = this.confirmDialog.open(confirmDialog, {
       data: { message: 'Are you really want to delete content?' }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        // Send DELETE API request
         this._records.deleteDocument(element).subscribe(data => {
+          // If done reload data
           if (data.success) { 
             this.reloadData()
           }
@@ -413,13 +401,16 @@ export class EditrecordsComponent implements OnInit {
     });
   }
 
-  copyDoc(element: any): void {
+  // Copy existed document
+  copyDoc(element: Document): void {
+    // Prepare dialog
     const dialogRef = this.confirmDialog.open(confirmDialog, {
       data: { message: 'Do you want to copy content?' }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        // Send POST API request with document data and type of content
         this._records.postDocument(element, this.type).subscribe(data => {
           if (data.success) { 
             this.reloadData()
@@ -429,15 +420,18 @@ export class EditrecordsComponent implements OnInit {
     })
   }
 
+  // Get short name
   getShort(t: string): string {
     return t ? t.substring(0, 40) + '...' : '...'
   }
 
+  // Apply filters on data table
   applyFilter(event: Event) {
     this.filterValue = (event.target as HTMLInputElement).value;
     this.setFilter()
   }
   
+  // Set data filter
   setFilter() {
     if (this.filterValue) {
       this.dataSource.filter = this.filterValue.trim().toLowerCase();
@@ -448,15 +442,5 @@ export class EditrecordsComponent implements OnInit {
     }
   }
 
-  getPageName(url: string): string {
-    return this.dataSource.data.find(d => d.url === url).name
-  }
-
-  addPage() {
-    if (!this.document.content.price_block) {
-      this.document.content.price_block = [];
-    }
-    this.document.content.price_block.push({name: this.getPageName(this.selectedPage), url: this.selectedPage})
-  }
 }
 

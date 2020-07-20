@@ -24,8 +24,6 @@ export class RecordsService {
   public user: any;
   public apiUser: any;
   public title: string = 'MultiSite Administrator Lite';
-  public messages = [];
-  public messagesMore = [];
   urlDocument: string = `${this.apiUrlHead}/document${this.apiUrlTail}`;
   urlOptions: string = `${this.apiUrlHead}/options${this.apiUrlTail}`;
   header: any = { headers: new HttpHeaders({
