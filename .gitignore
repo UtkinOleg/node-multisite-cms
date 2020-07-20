@@ -2,6 +2,7 @@
 multisite_admin/dist/
 multisite_admin/node_modules/
 multisite_admin/src/environments/ 
+multisite_api/public/
 
 # Mac OS X
 .DS_Store
