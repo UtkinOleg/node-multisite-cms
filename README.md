@@ -26,7 +26,7 @@ NodeJS Application
 
 **CMS Administrator dashboard** 
 
-Angular 9 Application
+Angular Application
 
 - <https://github.com/UtkinOleg/node-multisite-cms/tree/master/multisite_admin>
 
