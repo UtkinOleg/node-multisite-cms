@@ -15,6 +15,6 @@ app.use(bodyParser.urlencoded({
 
 app.use('/', routes);
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT | 80, () => {
 	console.log(process.env.NODE_ENV);
 });

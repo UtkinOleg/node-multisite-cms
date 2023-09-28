@@ -3,10 +3,10 @@
 Multisite is Content Management System (CMS) based on NodeJS and Angular
 
 **Demo CMS**
-<https://node-multisite-api.herokuapp.com/>
+<https://multisite-api.onrender.com/>
 
 **Demo site**
-<https://node-multisite-demo.herokuapp.com/>
+<https://multisite-89ri.onrender.com/>
 
 ## Table of contents
 
