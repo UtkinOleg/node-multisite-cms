@@ -16,7 +16,7 @@
     "cookie-parser": "*",
     "express": "*",
     "jade": "*",
-    "nodemailer": "^6.4.2",
+    "nodemailer": "^6.6.1",
     "passport": "*",
     "passport-local": "*",
     "request": "^2.88.0"
